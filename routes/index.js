@@ -9,7 +9,14 @@ var connection = mysql.createConnection({
   database: 'heroku_e69fb38a0ccdf69'
 });
 
-
+connection.on('error', function (err) {
+  connection = mysql.createConnection({
+    host: 'eu-cdbr-west-02.cleardb.net',
+    user: 'b1e604ae01c0a1',
+    password: '321fe8f8',
+    database: 'heroku_e69fb38a0ccdf69'
+  });
+})
 
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
