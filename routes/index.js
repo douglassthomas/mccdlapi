@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+
 var connection = mysql.createConnection({
   host: 'eu-cdbr-west-02.cleardb.net',
   user: 'b1e604ae01c0a1',
   password: '321fe8f8',
   database: 'heroku_e69fb38a0ccdf69'
 });
+
 
 
 // app.use(function(req, res, next) {
@@ -24,6 +26,20 @@ router.get('/', function (req, res, next) {
 router.get('/create', function (req, res) {
   connection.query('DROP TABLE courses');
   connection.query('DROP TABLE usercourses');
+
+
+  connection.query('CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255), password VARCHAR(255), fb_id VARCHAR(255))', function (err, results) {
+    if(err){
+      return res.json({
+        message: err.message
+      })
+    }
+    else{
+      connection.query("INSERT INTO users(email, password) VALUES('admin@admin.com', 'admin')");
+      console.log('users success');
+    }    
+  })
+
   connection.query('CREATE TABLE usercourses (id INT AUTO_INCREMENT PRIMARY KEY, userid INT, courseid INT)', function (err, results) {
     if (err) {
       return res.json({
@@ -137,4 +153,26 @@ router.post('/assign_course', function (req, res) {
   })
 })
 
+router.post('/cekFB', function (req, res) {
+  var fbid = req.body.fbid
+
+  connection.query('SELECT * FROM users WHERE fb_id=?', [fbid], function (err, results) {
+    if(err){
+      return res.json({
+        message: err.message
+      })
+    }
+    else if(results.length==0){
+      return res.json({
+        message: 'unregistered'
+      })
+    }
+    else{
+      return res.json({
+        message: 'registered',
+        user: results[0]
+      })
+    }
+  })
+})
 module.exports = router;
