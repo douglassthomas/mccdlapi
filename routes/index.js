@@ -182,4 +182,24 @@ router.post('/cekFB', function (req, res) {
     }
   })
 })
+
+router.post('/register', function (req, res) {
+  var name = req.body.name;
+  var email = req.body.email;
+  var password = req.body.password;
+  var fbid = req.body.fbid;
+
+  connection.query('INSERT INTO users(name, email, password, fbid) VALUES(?,?,?,?)', [name, email, password, fbid], function (err) {
+    if(err){
+      return res.json({
+        message: err.message
+      })
+    }
+    else{
+      return res.json({
+        message: 'success register'
+      })
+    }
+  })
+})
 module.exports = router;
