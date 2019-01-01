@@ -225,4 +225,23 @@ router.post('/cekUser', function (req, res) {
     }
   })
 })
+
+router.post('/login', function (req, res) {
+  var email = req.body.email;
+  var password = req.body.password;
+
+  connection.query('SELECT * FROM users WHERE email=? AND password=?', [email, password], function (err, results) {
+    if(err){
+      return res.json({
+        message: err.message
+      })
+    }
+    else{
+      return res.json({
+        message: 'success',
+        user: results[0]
+      })
+    }
+  })
+})
 module.exports = router;
