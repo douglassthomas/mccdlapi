@@ -190,7 +190,7 @@ router.post('/register', function (req, res) {
   var fbid = req.body.fbid;
   var phone = req.body.phone;
 
-  connection.query('INSERT INTO users(name, email, password, phone, fbid) VALUES(?,?,?,?,?)', [name, email, password, phone, fbid], function (err) {
+  connection.query('INSERT INTO users(name, email, password, phone, fb_id) VALUES(?,?,?,?,?)', [name, email, password, phone, fbid], function (err) {
     if(err){
       return res.json({
         message: err.message
