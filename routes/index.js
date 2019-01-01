@@ -236,10 +236,15 @@ router.post('/login', function (req, res) {
         message: err.message
       })
     }
-    else{
+    else if(results.length>0){
       return res.json({
         message: 'success login',
         user: results[0]
+      })
+    }
+    else{
+      return res.json({
+        message: 'login failed'
       })
     }
   })
