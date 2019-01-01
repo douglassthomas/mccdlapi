@@ -108,14 +108,14 @@ router.get('/courses', function (req, res) {
 
 router.post('/user_courses', function (req, res) {
   var userid = req.body.userid;
-
-  connection.query('SELECT c.id, main_course_name, course_name, description FROM usercourses uc JOIN courses c ON uc.courseid=c.id WHERE userid=?', [userid], function (err, results) {
+  //tambahin link ya soalnya butuh buat page mycourses - hehehe
+  connection.query('SELECT c.id, main_course_name, course_name, link, description FROM usercourses uc JOIN courses c ON uc.courseid=c.id WHERE userid=?', [userid], function (err, results) {
     if (err) {
       return res.json({
         message: err.message
       })
     }
-    else {
+    else if(results.length>0){
       return res.json({
         user_id : userid,
         courses : results
