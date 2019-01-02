@@ -197,9 +197,20 @@ router.post('/register', function (req, res) {
       })
     }
     else{
-      return res.json({
-        message: 'success register'
+      connection.query('SELECT id FROM users WHERE email=? AND password=?', [email, password], function (er, result) {
+        if(er){
+          return res.json({
+            message: er.message
+          })
+        }
+        else{
+          return res.json({
+            message: 'success register',
+            id: result[0].id
+          })
+        }
       })
+      
     }
   })
 })
