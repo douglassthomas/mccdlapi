@@ -204,6 +204,7 @@ router.post('/register', function (req, res) {
           })
         }
         else{
+          console.log(result[0].id)
           return res.json({
             message: 'success register',
             id: result[0].id
